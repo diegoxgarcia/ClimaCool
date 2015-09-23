@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.diegox101.activities.AgregarActivity">
+    <item android:id="@+id/atrasCiudad" android:title="@string/atras_ciudad"
+        android:orderInCategory="100" app:showAsAction="always" />
+</menu>

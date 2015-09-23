@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Clima Cool</string>
+    <string name="hello_blank"></string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_agregar">Elija una ciudad</string>
+    <string name="agregar_ciudad">Agregar Ciudad</string>
+    <string name="ingresar_ciudad"></string>
+    <string name="agregar_action">Agregar</string>
+    <string name="atras_ciudad">Atras</string>
+    <string name="clima_local">Clima Local</string>
+    <string name="ciudades">Ciudades</string>
+    <string name="clima_dia">Clima del Dia</string>
+    <string name="clima_forecast">Pronostico</string>
+    <string name="refresh">refresh</string>
+</resources>

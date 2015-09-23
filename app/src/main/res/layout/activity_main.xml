@@ -1,0 +1,143 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bluejayway"
+    android:orientation="horizontal"
+    tools:context=".MainActivity"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ciudades"
+                android:id="@+id/tvTituloCiudades"
+                android:textStyle="bold|italic"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
+                android:background="#14140a" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/frameLayoutCities">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linearLayoutCities">
+
+                    <ListView
+                        android:layout_width="155dp"
+                        android:layout_height="177dp"
+                        android:id="@+id/listView"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true" />
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageButton"
+                        android:src="@android:drawable/stat_notify_sync_noanim"
+                        android:onClick="onClickRefresh"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/refresh" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clima_local"
+                android:id="@+id/tvTituloCL"
+                android:layout_gravity="center_horizontal|top"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                android:background="#14140a" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:id="@+id/frameLayoutLocal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageViewLocal"
+                    android:layout_gravity="left|top" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvTempLocalMax"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvTempLocalMin"
+                    android:layout_gravity="right|center_vertical"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvHumedadLocal"
+                    android:layout_gravity="left|bottom"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvPresionLocal"
+                    android:layout_gravity="right|bottom"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvTempLocal"
+                    android:layout_gravity="right|top"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_blank"
+                    android:id="@+id/tvNombreLocal"
+                    android:layout_gravity="center_horizontal|top"
+                    android:textColor="#ffffff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/frameLayoutMaps"></FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/climaDetailFragment"></FrameLayout>
+
+</LinearLayout>
