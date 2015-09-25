@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_CLIMAS_NAME +
-                " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NOMBRE TEXT, TEMP TEXT, TEMPMIN TEXT" +
+                " (ID INTEGER PRIMARY KEY, NOMBRE TEXT, TEMP TEXT, TEMPMIN TEXT" +
                 "TEMPMAX TEXT, HUMIDITY TEXT, PRESS TEXT, WIND TEXT, IMAGE_CODE TEXT)");
     }
 
