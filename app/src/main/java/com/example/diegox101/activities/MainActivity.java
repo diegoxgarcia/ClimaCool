@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -19,12 +20,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.example.diegox101.DBAdapter.ClimaDBAdapter;
 import com.example.diegox101.asynctasks.DownloadImageTask;
 import com.example.diegox101.customadapters.CustomClimaAdapter;
 import com.example.diegox101.asynctasks.LeerClima;
 import com.example.diegox101.climacool.R;
 import com.example.diegox101.fragments.Main2ActivityFragment;
 import com.example.diegox101.listeners.GPSTrackerListener;
+import com.example.diegox101.sqlitedb.DBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +37,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private CustomClimaAdapter adapter;
     private GPSTrackerListener gpsTracker;
     private Location location;
+    private ClimaDBAdapter climaDBAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,23 +100,41 @@ public class MainActivity extends AppCompatActivity {
 
     private void createListCiudades(ListView list, CustomClimaAdapter adapter, Resources res){
         String urls = new String();
-        this.nombreCiudades = getSharedPref("ciudades");
+        Cursor crsr = null;
+        //this.nombreCiudades = getSharedPref("ciudades");
+        climaDBAdapter = new ClimaDBAdapter(this);
+        try {
+            climaDBAdapter.abrir();
+            crsr = climaDBAdapter.getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         list = (ListView)findViewById(R.id.listView);
 
-        if(nombreCiudades.isEmpty()){
+        //if(nombreCiudades.isEmpty()){
+        if(crsr.getCount() == 0){
             Intent intent = new Intent();
             intent.setClass(this,AgregarActivity.class);
             startActivityForResult(intent,101);
         }else{
             LeerClima leerClima = new LeerClima(this,"Por favor espere...","Cargando ciudades...",list, adapter, getResources());
-            for(int i = 0; i < this.nombreCiudades.size();i++){
+            //for(int i = 0; i < this.nombreCiudades.size();i++){
+/*            for(int i = 0; i < crsr.getCount();i++){
                 try {
                     urls += "http://api.openweathermap.org/data/2.5/weather?q=" +
                             URLEncoder.encode(nombreCiudades.get(i).toString(), "utf-8") + " - ";
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
+            do{
+                try {
+                    urls += "http://api.openweathermap.org/data/2.5/weather?q=" +
+                            URLEncoder.encode(crsr.getString(1), "utf-8") + " - ";
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }while(crsr.moveToNext()==true);
 
             leerClima.execute(urls);
         }
