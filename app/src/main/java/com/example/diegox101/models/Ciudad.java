@@ -4,6 +4,8 @@ package com.example.diegox101.models;
  * Created by Diegox101 on 03/09/2015.
  */
 public class Ciudad {
+
+    private int id = 0;
     private String nombre = "";
     private String temperatura = "";
     private String imagen = "";
@@ -12,6 +14,7 @@ public class Ciudad {
     private String tempMin = "";
     private String velocViento = "";
     private String presion = "";
+    private String cod = "";
 
     public Ciudad(){
 
@@ -85,5 +88,21 @@ public class Ciudad {
 
     public void setPresion(String presion) {
         this.presion = presion;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

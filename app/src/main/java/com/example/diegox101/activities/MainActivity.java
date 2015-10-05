@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
     private void createListCiudades(ListView list, CustomClimaAdapter adapter, Resources res){
         String urls = new String();
         Cursor crsr = null;
-        //this.nombreCiudades = getSharedPref("ciudades");
         climaDBAdapter = new ClimaDBAdapter(this);
         try {
             climaDBAdapter.abrir();
@@ -111,22 +110,12 @@ public class MainActivity extends AppCompatActivity {
         }
         list = (ListView)findViewById(R.id.listView);
 
-        //if(nombreCiudades.isEmpty()){
         if(crsr.getCount() == 0){
             Intent intent = new Intent();
             intent.setClass(this,AgregarActivity.class);
             startActivityForResult(intent,101);
         }else{
             LeerClima leerClima = new LeerClima(this,"Por favor espere...","Cargando ciudades...",list, adapter, getResources());
-            //for(int i = 0; i < this.nombreCiudades.size();i++){
-/*            for(int i = 0; i < crsr.getCount();i++){
-                try {
-                    urls += "http://api.openweathermap.org/data/2.5/weather?q=" +
-                            URLEncoder.encode(nombreCiudades.get(i).toString(), "utf-8") + " - ";
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }*/
             do{
                 try {
                     urls += "http://api.openweathermap.org/data/2.5/weather?q=" +

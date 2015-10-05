@@ -13,6 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String name = "climaDb" ;
     private static SQLiteDatabase.CursorFactory factory = null;
     private static final String TABLE_CLIMAS_NAME = "climas";
+    private static final String TABLE_CLIMALOCAL_NAME = "climalocal";
 
 
     public DBHelper(Context context) {
@@ -22,6 +23,10 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_CLIMAS_NAME +
+                " (ID INTEGER PRIMARY KEY, NOMBRE TEXT, TEMP TEXT, TEMPMIN TEXT" +
+                "TEMPMAX TEXT, HUMIDITY TEXT, PRESS TEXT, WIND TEXT, IMAGE_CODE TEXT)");
+
+        db.execSQL("CREATE TABLE " + TABLE_CLIMALOCAL_NAME +
                 " (ID INTEGER PRIMARY KEY, NOMBRE TEXT, TEMP TEXT, TEMPMIN TEXT" +
                 "TEMPMAX TEXT, HUMIDITY TEXT, PRESS TEXT, WIND TEXT, IMAGE_CODE TEXT)");
     }

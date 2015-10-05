@@ -1,5 +1,6 @@
 package com.example.diegox101.activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -11,13 +12,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.diegox101.DBAdapter.ClimaDBAdapter;
 import com.example.diegox101.asynctasks.LeerClima;
 import com.example.diegox101.climacool.R;
+import com.example.diegox101.models.Ciudad;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 
 public class AgregarActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private ClimaDBAdapter climaDBAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +62,33 @@ public class AgregarActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
         LeerClima clima = new LeerClima(this,"Por favor espere...","Verificando ciudad",null,null,null);
-            if(clima.getCod(input)!=null && clima.getCod(input).equals("200")){
-                Intent datos = new Intent();
-                datos.putExtra("ciudad", etNombreText);
-                setResult(RESULT_OK, datos);
-                finish();
-            }else{
-                Toast.makeText(AgregarActivity.this, "La ciudad no existe...", Toast.LENGTH_SHORT).show();
-            }
+        Ciudad ciudad = clima.getCod(input);
+        climaDBAdapter = new ClimaDBAdapter(this);
+        int count=0;
+        try {
+            count = climaDBAdapter.getRegistro(ciudad.getId()).getCount();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(ciudad.getCod()!=null && ciudad.getCod().equals("200") && count==0){
+            ContentValues reg = new ContentValues();
+            reg.put(ClimaDBAdapter.C_COLUMNA_NOMBRE, ciudad.getNombre());
+            reg.put(ClimaDBAdapter.C_COLUMNA_ID, ciudad.getId());
+            reg.put(ClimaDBAdapter.C_COLUMNA_TEMPERATURA, ciudad.getTemperatura());
+            reg.put(ClimaDBAdapter.C_COLUMNA_HUMEDAD, ciudad.getHumedad());
+            reg.put(ClimaDBAdapter.C_COLUMNA_PRESION, ciudad.getPresion());
+            reg.put(ClimaDBAdapter.C_COLUMNA_TEMP_MAXIMA, ciudad.getTempMax());
+            reg.put(ClimaDBAdapter.C_COLUMNA_TEMP_MINIMA, ciudad.getTempMin());
+            reg.put(ClimaDBAdapter.C_COLUMNA_IMAGECODE, ciudad.getImagen());
+            reg.put(ClimaDBAdapter.C_COLUMNA_VIENTO, ciudad.getVelocViento());
+            climaDBAdapter.insert(reg);
+            Intent datos = new Intent();
+            // datos.putExtra("ciudad", etNombreText);
+            setResult(RESULT_OK, datos);
+            finish();
+        }else{
+            Toast.makeText(AgregarActivity.this, "La ciudad no existe o ya esta cargada...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

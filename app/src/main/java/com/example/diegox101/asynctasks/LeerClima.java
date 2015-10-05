@@ -37,7 +37,6 @@ public class LeerClima extends AsyncTask<String, Void, ArrayList<String>> {
     private Activity activity = null;
     private String progressTitle = "";
     private String progressMsj = "";
-    private String cod = "";
     private String cityName = "";
     private ListView listCiudades = null;
     private CustomClimaAdapter adapter = null;
@@ -61,15 +60,51 @@ public class LeerClima extends AsyncTask<String, Void, ArrayList<String>> {
 
     }
 
-    public String getCod(String input) {
+    public Ciudad getCod(String input) {
+        Ciudad ciudad = new Ciudad();
         try {
             JSONObject json = new JSONObject(processURLStream(input));
-            this.cod = json.getString("cod");
-            this.cityName = json.getString("name");
+            ciudad.setCod(json.getString("cod"));
+            ciudad.setCod(json.getString("name"));
+            JSONObject jsonMain = json.getJSONObject("main");
+            JSONArray weatherJson = json.getJSONArray("weather");
+            JSONObject jsonWind = json.getJSONObject("wind");
+
+            double temperaturaK = jsonMain.getDouble("temp");
+            float temperaturaKFloat = ((int)temperaturaK*100)/100;
+            float temperaturaC = (float) (temperaturaKFloat-273.15);
+
+            double temperaturaMinK = jsonMain.getDouble("temp_min");
+            float temperaturaMinKFloat = ((int)temperaturaMinK*100)/100;
+            float temperaturaMinC = (float) (temperaturaMinKFloat-273.15);
+
+            double temperaturaMaxK = jsonMain.getDouble("temp_max");
+            float temperaturaMaxKFloat = ((int)temperaturaMaxK*100)/100;
+            float temperaturaMaxC = (float) (temperaturaMaxKFloat-273.15);
+
+            double velocViento = jsonWind.getDouble("speed");
+
+            ciudad.setTempMax(String.valueOf(temperaturaMaxC) + " ºC");
+
+            ciudad.setTempMin(String.valueOf(temperaturaMinC) + " ºC");
+
+            ciudad.setTemperatura(String.valueOf(temperaturaC) + " ºC");
+
+            ciudad.setHumedad(String.valueOf(jsonMain.getInt("humidity")) + "%");
+
+            ciudad.setPresion(String.valueOf(jsonMain.getInt("pressure")) + " hpa");
+
+            ciudad.setVelocViento(String.valueOf(velocViento) + " MPH");
+
+            ciudad.setId(json.getInt("id"));
+
+            JSONObject jsonObjectIcon = (JSONObject) weatherJson.get(0);
+            ciudad.setImagen(jsonObjectIcon.getString("icon") + ".png");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return this.cod;
+        return ciudad;
     }
 
     public String getCityName(){
@@ -127,6 +162,8 @@ public class LeerClima extends AsyncTask<String, Void, ArrayList<String>> {
                 ciudad.setImagen(jsonObjectIcon.getString("icon") + ".png");
 
                 if(jsonResponse.toString().contains("{latlon}")){
+                    //TODO: reemplazar por persistencia a la DB, TABLA CLIMA LOCAL. Borrar registro grabar nuevo
+                    //TODO: Mover el seteo de textview fuera de LeerClima
                     ((TextView)this.activity.findViewById(R.id.tvNombreLocal)).setText(ciudad.getNombre());
                     ((TextView)this.activity.findViewById(R.id.tvTempLocal)).setText(ciudad.getTemperatura());
                     ((TextView)this.activity.findViewById(R.id.tvTempLocalMax)).setText(ciudad.getTempMax());
@@ -139,6 +176,7 @@ public class LeerClima extends AsyncTask<String, Void, ArrayList<String>> {
 
                     return;
                 }
+                //TODO: Hacer update del registro leido
                 this.ciudades.add(ciudad);
             }
 
