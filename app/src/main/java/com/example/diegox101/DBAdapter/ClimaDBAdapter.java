@@ -50,10 +50,9 @@ public class ClimaDBAdapter {
         this.context = context;
     }
 
-    public ClimaDBAdapter abrir() throws SQLException{
+    public void abrir() throws SQLException{
         dbHelper = new DBHelper(this.context);
         db = dbHelper.getWritableDatabase();
-        return this;
     }
 
     public void cerrar(){
